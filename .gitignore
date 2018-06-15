@@ -1,0 +1,24 @@
+# General backup/log/swap files
+*~
+*.DS_Store
+*.bak
+*.log
+*.out
+*.so
+*.swp
+
+# Composer
+/vendor/
+/composer.lock
+
+# PhpStorm
+/.idea/
+
+# PHPUnit
+/phpunit.xml
+
+# Node.js
+/node_modules/
+/npm-shrinkwrap.json
+/package.lock
+/yarn.lock

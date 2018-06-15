@@ -1,0 +1,45 @@
+{
+  "name": "wceu2018/unit-testing-workshop",
+  "description": "Code for the workshop \"An Introduction to Unit Testing (for WordPress)\" at WordCamp Europe 2018.",
+  "homepage": "https://2018.europe.wordcamp.org/session/an-introduction-to-unit-testing-for-wordpress/",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "component testing",
+    "module testing",
+    "testing",
+    "unit testing",
+    "wceu",
+    "wordcamp",
+    "wordpress",
+    "workshop",
+    "wp"
+  ],
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Carl Alexander",
+      "homepage": "https://carlalexander.ca"
+    },
+    {
+      "name": "Thorsten Frommen",
+      "homepage": "https://tfrommen.de"
+    },
+    {
+      "name": "Giuseppe Mazzapica",
+      "homepage": "https://gmazzap.me"
+    }
+  ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "require-dev": {
+    "brain/monkey": "^2",
+    "mockery/mockery": "^1",
+    "phpunit/phpunit": "^5.7"
+  },
+  "config": {
+    "platform": {
+      "php": "5.6.0"
+    }
+  }
+}
