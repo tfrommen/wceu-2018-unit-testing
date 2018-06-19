@@ -136,9 +136,8 @@ class Exercise3Test extends TestCase {
 	public function test_create_team_member_pages() {
 
 		Monkey\Functions\stubs( [
-			'current_user_can'                            => true,
-			'UnitTestingWorkshop\get_team_page'           => \Mockery::mock( 'WP_Post' ),
-			'UnitTestingWorkshop\create_team_member_page' => true,
+			'current_user_can'                  => true,
+			'UnitTestingWorkshop\get_team_page' => \Mockery::mock( 'WP_Post' ),
 		] );
 
 		Monkey\Filters\expectApplied( 'team_members_user_query' )
