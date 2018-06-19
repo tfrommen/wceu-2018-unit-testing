@@ -26,7 +26,7 @@ class Exercise3Test extends TestCase {
 	 */
 	public function test_plugin_is_initialized() {
 
-		static::assertTrue( has_action( 'init', 'init_plugin' ) );
+		static::assertTrue( has_action( 'after_setup_theme', 'UnitTestingWorkshop\init_plugin' ) );
 	}
 
 	/**
@@ -56,7 +56,8 @@ class Exercise3Test extends TestCase {
 	 */
 	public function test_create_team_page_do_nothing_if_page_exists() {
 
-		Monkey\Functions\when( 'get_page_by_path' )->justReturn( \Mockery::mock( 'WP_Post' ) );
+		Monkey\Functions\when( 'get_page_by_path' )
+			->justReturn( \Mockery::mock( 'WP_Post' ) );
 
 		static::assertTrue( create_team_page() );
 	}
@@ -69,7 +70,8 @@ class Exercise3Test extends TestCase {
 	 */
 	public function test_delete_member_page_for_no_user_team_member_page() {
 
-		Monkey\Functions\when( 'get_userdata' )->justReturn( true );
+		Monkey\Functions\when( 'get_userdata' )
+			->justReturn( true );
 
 		static::assertSame( 1, delete_member_page( 42 ) );
 	}
@@ -82,7 +84,8 @@ class Exercise3Test extends TestCase {
 	 */
 	public function test_create_team_page_fail_if_wp_insert_post_fails() {
 
-		Monkey\Functions\when( 'get_page_by_path' )->justReturn( null );
+		Monkey\Functions\when( 'get_page_by_path' )
+			->justReturn( null );
 
 		Monkey\Functions\expect( 'wp_insert_post' )
 			->once()
@@ -119,7 +122,8 @@ class Exercise3Test extends TestCase {
 			->with( 123, '_wp_page_template', TEAM_PAGE_TEMPLATE )
 			->andReturn( 123 );
 
-		Monkey\Actions\expectDone( 'create_team_page_failed' )->once();
+		Monkey\Actions\expectDone( 'create_team_page_failed' )
+			->once();
 
 		static::assertFalse( create_team_page() );
 	}
@@ -146,7 +150,7 @@ class Exercise3Test extends TestCase {
 			->with( [ 'who' => 'authors' ] )
 			->andReturn( [ \Mockery::mock( 'WP_User' ), \Mockery::mock( 'WP_User' ) ] );
 
-		Monkey\Functions\expect( 'create_team_member_page' )
+		Monkey\Functions\expect( 'UnitTestingWorkshop\create_team_member_page' )
 			->once()
 			->with( \Mockery::type( 'WP_User' ), \Mockery::type( 'WP_Post' ) )
 			->andReturn( true );
@@ -176,7 +180,8 @@ class Exercise3Test extends TestCase {
 			'has_shortcode'                     => true,
 		] );
 
-		Monkey\Functions\expect( 'UnitTestingWorkshop\print_team_members' )->once();
+		Monkey\Functions\expect( 'UnitTestingWorkshop\print_team_members' )
+			->once();
 
 		/** @var \WP_Query|\Mockery\MockInterface $query */
 		$query = \Mockery::mock( 'WP_Query' );
