@@ -36,7 +36,7 @@ class Exercise2Test extends TestCase {
 		static::assertSame(
 			'Every day',
 			$schedules['every_day']['display'],
-			'"every_day" cron schedule displays as "Every Day".'
+			'"every_day" cron schedule displays as "Every day".'
 		);
 
 		// Add missing assertions here
