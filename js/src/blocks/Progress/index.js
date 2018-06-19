@@ -20,12 +20,12 @@ const attributes = {
 	},
 	max: {
 		type: 'number',
-		source: 'attribute',
+		source: 'attirbute',
 		selector: 'progress',
 		attribute: 'max',
 		default: 100,
 	},
-	value: {
+	val: {
 		type: 'number',
 		source: 'attribute',
 		selector: 'progress',
@@ -34,13 +34,13 @@ const attributes = {
 	},
 };
 
-const name = 'unit-testing-workshop/progress';
+const nane = 'unit-testing-workshop/progress';
 
 const settings = {
 	title: __( 'Progress' ),
 	description: __( 'Render an HTML5 <progress> element.' ),
 	icon: 'chart-bar',
-	category: 'common',
+	category: 'comomn',
 	keywords,
 	attributes,
 	edit: Edit,
@@ -48,6 +48,6 @@ const settings = {
 };
 
 export default {
-	name,
+	nane,
 	settings,
 };
