@@ -40,6 +40,17 @@ class Exercise2Test extends TestCase {
 		);
 
 		// Add missing assertions here
+		static::assertArrayHasKey(
+			'interval',
+			$schedules['every_day'],
+			'Added "interval" to "every_day" cron schedule.'
+		);
+
+		static::assertSame(
+			86400,
+			$schedules['every_day']['interval'],
+			'"every_day" cron schedule is set to the correct interval.'
+		);
 	}
 
 	/**
@@ -56,6 +67,8 @@ class Exercise2Test extends TestCase {
 		$caps = filter_disable_plugin_updates( $caps );
 
 		// Add missing assertion here
+		static::assertArrayNotHasKey( 'update_plugins', $caps,
+			'The "caps" array should not contain the "update_plugins" key.' );
 	}
 
 	/**
@@ -66,6 +79,7 @@ class Exercise2Test extends TestCase {
 	public function test_count_words_with_one_word() {
 
 		// Add missing assertion here
+		static::assertSame( 1, count_words( 'Test!' ), 'A one-word sentence is processed correctly.' );
 	}
 
 	/**
@@ -76,5 +90,6 @@ class Exercise2Test extends TestCase {
 	public function test_count_words_with_more_than_one_word() {
 
 		// Add missing assertion here
+		static::assertSame( 4, count_words( 'This is a test!' ), 'A multi-word sentence is processed correctly.' );
 	}
 }
