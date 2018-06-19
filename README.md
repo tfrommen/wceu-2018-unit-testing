@@ -2,6 +2,8 @@
 
 Code for the workshop "An Introduction to Unit Testing (for WordPress)" at WordCamp Europe 2018.
 
+The slides are available online at [slides.tfrommen.de/wceu-2018-unit-testing](https://slides.tfrommen.de/wceu-2018-unit-testing/).
+
 
 ## Requirements
 
@@ -27,8 +29,8 @@ In order to run the JavaScript tests, you need to have installed the following:
 Here are the steps to install and set up your environment for the workshop:
 
 1. Clone (or download) this repository to your computer.
-2. In your terminal, go to the root directory of this repository.
-3. Install the dependencies:
+1. In your terminal, go to the root directory of this repository.
+1. Install the dependencies:
     * For **PHP**, run `composer install`.
     * For **JavaScript**, run `yarn` (or `npm i`).
 
@@ -42,7 +44,7 @@ To run a specific exercise, perform the according command from the root director
 
 ### Running PHP Tests
 
-For each PHP exercise, there is a dedicated _test suite_, named `exercise1` to `exercise3`.
+For each PHP exercise, there is a dedicated _test suite_, named `exercise1` etc.
 The generic command to run a specific test suite is as follows:
 
 ```console
