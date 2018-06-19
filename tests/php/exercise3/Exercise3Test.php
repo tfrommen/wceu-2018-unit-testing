@@ -44,6 +44,30 @@ class Exercise3Test extends TestCase {
 			->once()
 			->with( 'UnitTestingWorkshop\create_team_page' );
 
+		Monkey\Actions\expectAdded( 'current_screen' )
+			->once()
+			->with( 'UnitTestingWorkshop\create_team_member_pages' );
+
+		Monkey\Actions\expectAdded( 'user_register' )
+			->once()
+			->with( 'UnitTestingWorkshop\create_new_team_member_page' );
+
+		Monkey\Actions\expectAdded( 'delete_user' )
+			->once()
+			->with( 'UnitTestingWorkshop\delete_member_page' );
+
+		Monkey\Filters\expectAdded( 'pre_delete_post' )
+			->once()
+			->with( 'UnitTestingWorkshop\prevent_team_page_delete', 10, 2 );
+
+		Monkey\Actions\expectAdded( 'loop_end' )
+			->once()
+			->with( 'UnitTestingWorkshop\print_team_members_on_team_page' );
+
+		Monkey\Actions\expectAdded( 'wp_loaded' )
+			->once()
+			->with( 'UnitTestingWorkshop\add_team_shortcode' );
+
 		init_plugin();
 	}
 
@@ -73,6 +97,9 @@ class Exercise3Test extends TestCase {
 		Monkey\Functions\when( 'get_userdata' )
 			->justReturn( true );
 
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_user_team_member_page' )
+			->justReturn( null );
+
 		static::assertSame( 1, delete_member_page( 42 ) );
 	}
 
@@ -98,7 +125,7 @@ class Exercise3Test extends TestCase {
 			->andReturn( 0 );
 
 		Monkey\Actions\expectDone( 'create_team_page_failed' )
-			->never();
+			->once();
 
 		static::assertFalse( create_team_page() );
 	}
@@ -120,7 +147,7 @@ class Exercise3Test extends TestCase {
 		Monkey\Functions\expect( 'update_post_meta' )
 			->once()
 			->with( 123, '_wp_page_template', TEAM_PAGE_TEMPLATE )
-			->andReturn( 123 );
+			->andReturn( false );
 
 		Monkey\Actions\expectDone( 'create_team_page_failed' )
 			->once();
@@ -142,15 +169,16 @@ class Exercise3Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'team_members_user_query' )
 			->once()
+			->with( [ 'who' => 'authors' ] )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_users' )
 			->once()
-			->with( [ 'who' => 'authors' ] )
+			->with( [] )
 			->andReturn( [ \Mockery::mock( 'WP_User' ), \Mockery::mock( 'WP_User' ) ] );
 
 		Monkey\Functions\expect( 'UnitTestingWorkshop\create_team_member_page' )
-			->once()
+			->twice()
 			->with( \Mockery::type( 'WP_User' ), \Mockery::type( 'WP_Post' ) )
 			->andReturn( true );
 
@@ -176,7 +204,7 @@ class Exercise3Test extends TestCase {
 			'doing_action'                      => true,
 			'UnitTestingWorkshop\is_team_page'  => true,
 			'UnitTestingWorkshop\get_team_page' => $post,
-			'has_shortcode'                     => true,
+			'has_shortcode'                     => false,
 		] );
 
 		Monkey\Functions\expect( 'UnitTestingWorkshop\print_team_members' )
@@ -184,6 +212,8 @@ class Exercise3Test extends TestCase {
 
 		/** @var \WP_Query|\Mockery\MockInterface $query */
 		$query = \Mockery::mock( 'WP_Query' );
+		$query->shouldReceive( 'is_main_query' )
+		      ->andReturnTrue();
 
 		print_team_members_on_team_page( $query );
 	}
@@ -198,6 +228,11 @@ class Exercise3Test extends TestCase {
 
 		/** @var \WP_User|\Mockery\MockInterface $user */
 		$user = \Mockery::mock( 'WP_User' );
+		$user->shouldReceive( 'get' )
+		     ->andReturnUsing( function ( $arg ) {
+
+			     return $arg;
+		     } );
 
 		/** @var \WP_Post|\Mockery\MockInterface $team_page */
 		$team_page     = \Mockery::mock( 'WP_Post' );
@@ -216,12 +251,17 @@ class Exercise3Test extends TestCase {
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 				'post_parent' => $team_page->ID,
+				'post_name'    => 'user_nicename',
+				'post_title'   => 'display_name',
+				'post_content' => 'description',
+				'post_author'  => 'ID',
 			] )
 			->andReturn( 456 );
 
 		Monkey\Functions\expect( 'update_post_meta' )
 			->once()
-			->with( 456, '_wp_page_template', TEAM_MEMBER_PAGE_TEMPLATE );
+			->with( 456, '_wp_page_template', TEAM_MEMBER_PAGE_TEMPLATE )
+			->andReturn( true );
 
 		static::assertTrue( create_team_member_page( $user, $team_page ) );
 	}
@@ -232,6 +272,9 @@ class Exercise3Test extends TestCase {
 	 * TODO: Can you complete the test and make it pass?
 	 */
 	public function test_init_team_templates() {
+
+		Monkey\Functions\when( '__' )
+			->returnArg();
 
 		$templates = init_team_templates( [] );
 
