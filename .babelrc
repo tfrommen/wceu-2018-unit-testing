@@ -7,7 +7,7 @@
 		"test": {
 			"plugins": [
 				"rewire",
-				["transform-class-properties", { "spec": true }]
+				[ "transform-class-properties", { "spec": true } ]
 			]
 		}
 	}
