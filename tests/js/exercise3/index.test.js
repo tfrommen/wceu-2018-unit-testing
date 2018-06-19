@@ -1,8 +1,8 @@
-import './__stubs__/wp';
+import '../__stubs__/wp';
 
-import '../../js/src/index';
+import '../../../js/src/index';
 
-jest.mock( '../../js/src/blocks/LoremIpsum', () => ( {
+jest.mock( '../../../js/src/blocks/LoremIpsum', () => ( {
 	name: 'lorem-ipsum',
 	settings: { lorem: 'ipsum' },
 } ) );

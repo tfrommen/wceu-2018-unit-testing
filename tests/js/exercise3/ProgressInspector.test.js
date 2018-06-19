@@ -1,4 +1,4 @@
-import '../../__stubs__/wp';
+import '../__stubs__/wp';
 
 import React from 'react';
 

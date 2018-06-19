@@ -22,7 +22,7 @@ beforeEach( () => {
  * - https://github.com/speedskater/babel-plugin-rewire/blob/master/README.md#named-and-top-level-function-rewiring
  */
 describe( 'getRandomSentence', () => {
-	const sentence = 'This is a sentence.';
+	const sentence = 'This is a fake sentence.';
 	let getSentencesMock;
 
 	beforeEach( () => {
@@ -31,7 +31,7 @@ describe( 'getRandomSentence', () => {
 	} );
 
 	/**
-	 * TODO: Complete the test by filling in the missing values/variabls.
+	 * TODO: Complete the test by filling in the missing values/variables.
 	 */
 	test( 'should return one of given sentences at random', () => {
 		const text = 'This is a sentence.';
@@ -77,7 +77,7 @@ describe( 'getRandomHeading', () => {
 		expect( getRandomSentenceMock ).toHaveBeenCalledWith( /* TODO */ );
 		expect( randomSentence ).toMatch( new RegExp( `^${ randomHeading }` ) );
 		// Fix the matcher call. It should ensure that the sentence does NOT end with a comma etc.
-		expect( randomHeading ).not.toMatch( /[,;.]$/ );
+		expect( randomHeading ).toMatch( /[,;.]$/ );
 	} );
 } );
 
