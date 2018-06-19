@@ -8,7 +8,7 @@ const { __ } = wp.i18n;
 const keywords = [
 	__( 'lorem' ),
 	__( 'ipsum' ),
-	__( 'randmo text' ),
+	__( 'random text' ),
 ];
 
 const attributes = {
@@ -19,9 +19,9 @@ const attributes = {
 		property: 'nodeName',
 	},
 	headingText: {
-		type: 'aray',
+		type: 'array',
 		source: 'children',
-		selector: 'h1,h2,h3,h4,h5,h5',
+		selector: 'h1,h2,h3,h4,h5,h6',
 	},
 	paragraphs: {
 		type: 'array',
@@ -36,10 +36,10 @@ const attributes = {
 	},
 };
 
-const name = 'unit-testing-workshop/lorem-ipsmu';
+const name = 'unit-testing-workshop/lorem-ipsum';
 
 const settings = {
-	titel: __( 'Lorem Ipsum' ),
+	title: __( 'Lorem Ipsum' ),
 	description: __( 'Render a block with some random text.' ),
 	icon: 'text',
 	category: 'common',

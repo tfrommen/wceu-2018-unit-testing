@@ -38,9 +38,9 @@ describe( 'getRandomSentence', () => {
 		const randomSentence = getRandomSentence( text );
 
 		// Fill in the missing values/variables.
-		expect( getSentencesMock ).toHaveBeenCalledTimes( /* TODO */ );
-		expect( getSentencesMock ).toHaveBeenCalledWith( /* TODO */ );
-		expect( randomSentence ).toBe( /* TODO */ );
+		expect( getSentencesMock ).toHaveBeenCalledTimes( 1 );
+		expect( getSentencesMock ).toHaveBeenCalledWith( text );
+		expect( randomSentence ).toBe( sentence );
 	} );
 
 	/**
@@ -48,7 +48,7 @@ describe( 'getRandomSentence', () => {
 	 */
 	test( 'should return empty string for empty text', () => {
 		// Fill in the correct value to fake an empty-text response.
-		getSentencesMock.mockReturnValue( /* TODO */ );
+		getSentencesMock.mockReturnValue( [] );
 
 		const randomSentence = getRandomSentence( '' );
 
@@ -73,11 +73,11 @@ describe( 'getRandomHeading', () => {
 		const randomHeading = getRandomHeading( text );
 
 		// Fill in the missing values/variables.
-		expect( getRandomSentenceMock ).toHaveBeenCalledTimes( /* TODO */ );
-		expect( getRandomSentenceMock ).toHaveBeenCalledWith( /* TODO */ );
+		expect( getRandomSentenceMock ).toHaveBeenCalledTimes( 1 );
+		expect( getRandomSentenceMock ).toHaveBeenCalledWith( text );
 		expect( randomSentence ).toMatch( new RegExp( `^${ randomHeading }` ) );
 		// Fix the matcher call. It should ensure that the sentence does NOT end with a comma etc.
-		expect( randomHeading ).toMatch( /[,;.]$/ );
+		expect( randomHeading ).not.toMatch( /[,;.]$/ );
 	} );
 } );
 
@@ -94,11 +94,12 @@ describe( 'getRandomParagraph', () => {
 	 */
 	test( 'should return empty string for empty text', () => {
 		// Fill in the missing value to make the function return an empty-text response by default.
-		getSentencesMock.mockReturnValue( /* TODO */ );
+		getSentencesMock.mockReturnValue( [] );
 
 		const randomParagraph = getRandomParagraph( '' );
 
 		// Add missing expectation.
+		expect( randomParagraph ).toBe( '' );
 	} );
 
 	/**
@@ -117,5 +118,7 @@ describe( 'getRandomParagraph', () => {
 
 		expect( randomParagraph ).toMatch( /(One. Two. Three.|Two. Three. One.|Three. One. Two.)/ );
 		// Add expectation(s) for the number of sentences (i.e., should be in the defined range of 3 and 8).
+		expect( randomSentences.length ).toBeGreaterThanOrEqual( 3 );
+		expect( randomSentences.length ).toBeLessThanOrEqual( 8 );
 	} );
 } );

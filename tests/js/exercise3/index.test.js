@@ -7,6 +7,10 @@ jest.mock( '../../../js/src/blocks/LoremIpsum', () => ( {
 	settings: { lorem: 'ipsum' },
 } ) );
 // TODO: Add missing mock for the Progress block.
+jest.mock( '../../../js/src/blocks/Progress', () => ( {
+	name: 'progress',
+	settings: { progress: 42 },
+} ) );
 
 /**
  * Complete the tests of the functions found at /js/src/index.js.
@@ -27,7 +31,7 @@ describe( 'index', () => {
 	test( 'should register LoremIpsum block', () => {
 
 		// Fill in the missing value(s)/variable(s).
-		expect( registerBlockType ).toHaveBeenCalledWith( /* TODO, TODO */ );
+		expect( registerBlockType ).toHaveBeenCalledWith( 'lorem-ipsum', { lorem: 'ipsum' } );
 	} );
 
 	/**
@@ -36,5 +40,6 @@ describe( 'index', () => {
 	test( 'should register Progress block', () => {
 
 		// Add the missing expectation, AND mock the according block (see above).
+		expect( registerBlockType ).toHaveBeenCalledWith( 'progress', { progress: 42 } );
 	} );
 } );

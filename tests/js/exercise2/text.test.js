@@ -20,7 +20,7 @@ describe( 'getSentences', () => {
 		const actual = getSentences( text );
 
 		// Use the correct matcher (i.e., not toBe()).
-		expect( actual ).toBe( expected );
+		expect( actual ).toEqual( expected );
 	} );
 
 	/**
@@ -33,6 +33,7 @@ describe( 'getSentences', () => {
 		const actual = getSentences( text );
 
 		// Add missing expectation.
+		expect( actual ).toEqual( expected );
 	} );
 
 	/**
@@ -43,11 +44,12 @@ describe( 'getSentences', () => {
 
 		// Fill in the expected string.
 		const expected = [
-			/* TODO */,
+			text,
 		];
 		const actual = getSentences( text );
 
 		// Add missing expectation.
+		expect( actual ).toEqual( expected );
 	} );
 
 	/**
@@ -62,5 +64,13 @@ Oh, and here is yet another sentence.
 `;
 
 		// Add missing expectation.
+		const expected = [
+			'This is a sentence.',
+			'And there is another one.',
+			'Oh, and here is yet another sentence.',
+		];
+		const actual = getSentences( text );
+
+		expect( actual ).toEqual( expected );
 	} );
 } );

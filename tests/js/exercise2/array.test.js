@@ -22,7 +22,7 @@ describe( 'mapObjectsToProperty', () => {
 		const actual = mapObjectsToProperty( data, propertyName );
 
 		// Fill in the expected value.
-		expect( actual ).toBe( /* TODO */ );
+		expect( actual ).toBe( data );
 	} );
 
 	/**
@@ -36,5 +36,6 @@ describe( 'mapObjectsToProperty', () => {
 		const actual = mapObjectsToProperty( data, propertyName );
 
 		// Add missing expectation.
+		expect( actual ).toBe( data );
 	} );
 } );

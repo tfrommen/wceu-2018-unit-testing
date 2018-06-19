@@ -30,7 +30,13 @@ describe( '<ProgressInspector />', () => {
 
 		const rangeControl = wrapper.find( RangeControl );
 		// Fill in the missing value.
-		expect( rangeControl ).toHaveLength( /* TODO */ );
+		expect( rangeControl ).toHaveLength( 1 );
 		// Add missing expectation to ensure the control element has all expected props.
+		expect( rangeControl.props() ).toMatchObject( {
+			max: '',
+			min: '0',
+			value: max,
+			onChange: setMax,
+		} );
 	} );
 } );

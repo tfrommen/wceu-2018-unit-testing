@@ -34,8 +34,9 @@ describe( '<ProgressSave />', () => {
 		);
 
 		// Fill in the appropriate selector (with or without attributes) for the progress element.
-		const progressElement = wrapper.find( /* TODO */ );
+		const progressElement = wrapper.find( `progress[max=${ max }][value=${ value }]` );
 		// Add expectation to ensure existence (and correct props) of the progress element.
+		expect( progressElement ).toHaveLength( 1 );
 	} );
 
 	/**
@@ -47,6 +48,8 @@ describe( '<ProgressSave />', () => {
 		);
 
 		// Add expectation to ensure existence of the progress element with empty max (string value) attribute.
+		const progressElement = wrapper.find( 'progress[max=""]' );
+		expect( progressElement ).toHaveLength( 1 );
 	} );
 
 	/**
@@ -60,10 +63,12 @@ describe( '<ProgressSave />', () => {
 		};
 		// Fill in missing JSX expression to render the ProgressSave component.
 		const wrapper = shallow(
-			/* TODO */
+			<ProgressSave attributes={ attributes } />
 		);
 
 		const richTextContent = wrapper.find( RichText.Content );
 		// Add expectation to ensure existence of the rich-text element with description as value (prop).
+		expect( richTextContent ).toHaveLength( 1 );
+		expect( richTextContent.prop( 'value' ) ).toBe( description );
 	} );
 } );
