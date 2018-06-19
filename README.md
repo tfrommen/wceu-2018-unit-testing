@@ -2,7 +2,8 @@
 
 Code for the workshop "An Introduction to Unit Testing (for WordPress)" at WordCamp Europe 2018.
 
-The slides are available online at [slides.tfrommen.de/wceu-2018-unit-testing](https://slides.tfrommen.de/wceu-2018-unit-testing/).
+The **slides** are available online at [slides.tfrommen.de/wceu-2018-unit-testing](https://slides.tfrommen.de/wceu-2018-unit-testing/).
+Possible **solutions** can be found in the [`completed` branch](https://github.com/tfrommen/wceu-2018-unit-testing/tree/completed).
 
 
 ## Requirements
