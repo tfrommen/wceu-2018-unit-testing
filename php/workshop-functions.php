@@ -52,7 +52,7 @@ function filter_cron_schedules( array $schedules ) {
 	return array_merge( $schedules, [
 		'every_minute' => [
 			'interval' => 60,
-			'display'  => 'Every minute',
+			'display'  => 'Every Minute',
 		],
 		'every_day'    => [
 			'interval' => 86400,
@@ -74,7 +74,7 @@ function filter_remove_endpoints( array $endpoints ) {
 
 	return array_filter( $endpoints, function ( $route ) {
 
-		return 1 === preg_match( "%/workshop/%", $route );
+		return 1 === preg_match( "%/Workshop/%", $route );
 	}, ARRAY_FILTER_USE_KEY );
 }
 
@@ -105,6 +105,5 @@ add_filter( 'shake_error_codes', 'filter_add_error_codes' );
  */
 function count_words( $text ) {
 
-    return count( explode( ' ', $text ) );
+	return count( explode( ' ', $text ) );
 }
-
