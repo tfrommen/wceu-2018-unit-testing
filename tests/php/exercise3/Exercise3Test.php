@@ -176,7 +176,7 @@ class Exercise3Test extends TestCase {
 			'has_shortcode'                     => true,
 		] );
 
-		Monkey\Functions\expect( 'print_team_members' )->once();
+		Monkey\Functions\expect( 'UnitTestingWorkshop\print_team_members' )->once();
 
 		/** @var \WP_Query|\Mockery\MockInterface $query */
 		$query = \Mockery::mock( 'WP_Query' );

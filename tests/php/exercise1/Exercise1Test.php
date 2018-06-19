@@ -32,8 +32,8 @@ class Exercise1Test extends TestCase {
 		static::assertArrayHasKey( 'every_minute', $schedules, 'Added "every_minute" cron schedule.' );
 		static::assertArrayHasKey( 'display', $schedules['every_minute'],
 			'Added "display" to "every_minute" cron schedule.' );
-		static::assertSame( 'Every Minute', $schedules['every_minute']['display'],
-			'"every_minute" cron schedule displays as "Every Minute".' );
+		static::assertSame( 'Every minute', $schedules['every_minute']['display'],
+			'"every_minute" cron schedule displays as "Every minute".' );
 		static::assertArrayHasKey( 'interval', $schedules['every_minute'],
 			'Added "interval" to "every_minute" cron schedule.' );
 		static::assertSame( 60, $schedules['every_minute']['interval'],
@@ -61,16 +61,16 @@ class Exercise1Test extends TestCase {
 
 		$endpoints = [
 			'/wp/v1'       => [],
-			'/Workshop/v1' => [],
+			'/workshop/v1' => [],
 		];
 
 		$expected_endpoints = [
-			'/Workshop/v1' => [],
+			'/workshop/v1' => [],
 		];
 
 		$endpoints = filter_remove_endpoints( $endpoints );
 
-		static::assertSame( $expected_endpoints, $endpoints, 'Removed WordPress endpoints.' );
+		static::assertSame( $expected_endpoints, $endpoints, 'Removed all but the "workshop" endpoints.' );
 	}
 
 	/**
