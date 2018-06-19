@@ -11,7 +11,7 @@ namespace UnitTestingWorkshop;
  */
 function filter_disable_plugin_updates( array $allcaps ) {
 
-	unset( $allcaps['instal_plugins'] );
+	unset( $allcaps['install_plugins'] );
 	unset( $allcaps['update_plugins'] );
 
 	return $allcaps;
@@ -33,7 +33,7 @@ function filter_user_contact_methods( array $contact_methods ) {
 
 	// Add new contact methods
 	$contact_methods['phone'] = 'Phone number';
-	$contact_methods['skype'] = 'Skype usename';
+	$contact_methods['skype'] = 'Skype username';
 
 	return $contact_methods;
 }
@@ -52,7 +52,7 @@ function filter_cron_schedules( array $schedules ) {
 	return array_merge( $schedules, [
 		'every_minute' => [
 			'interval' => 60,
-			'display'  => 'Every Minute',
+			'display'  => 'Every minute',
 		],
 		'every_day'    => [
 			'interval' => 86400,
@@ -74,7 +74,7 @@ function filter_remove_endpoints( array $endpoints ) {
 
 	return array_filter( $endpoints, function ( $route ) {
 
-		return 1 === preg_match( "%/Workshop/%", $route );
+		return 1 === preg_match( "%/workshop/%", $route );
 	}, ARRAY_FILTER_USE_KEY );
 }
 
@@ -89,7 +89,7 @@ add_filter( 'rest_endpoints', 'filter_remove_endpoints' );
  */
 function filter_add_error_code( array $error_codes ) {
 
-	$error_codes[] = 'workshops';
+	$error_codes[] = 'workshop';
 
 	return $error_codes;
 }
@@ -104,6 +104,10 @@ add_filter( 'shake_error_codes', 'filter_add_error_codes' );
  * @return int
  */
 function count_words( $text ) {
+
+	if ( trim( $text ) === '' ) {
+		return 0;
+	}
 
 	return count( explode( ' ', $text ) );
 }
