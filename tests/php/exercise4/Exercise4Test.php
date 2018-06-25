@@ -19,6 +19,11 @@ use Brain\Monkey;
 class Exercise4Test extends TestCase {
 
 	/**
+	 * @var int
+	 */
+	private $running_post_id = 1;
+
+	/**
 	 * Test that get_team_page() returns `null` when `TEAM_PAGE_OPTION` is not set.
 	 */
 	public function test_get_team_page_return_null_if_option_is_not_set() {
@@ -51,7 +56,7 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_get_team_page_return_post() {
 
-		$a_post = $this->mockPosts( 1 )[0];
+		$post = $this->mock_post();
 
 		Monkey\Functions\expect( 'get_option' )
 			->with( TEAM_PAGE_OPTION, 0 )
@@ -59,9 +64,9 @@ class Exercise4Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )
 			->with( 1 )
-			->andReturn( $a_post );
+			->andReturn( $post );
 
-		static::assertSame( $a_post, get_team_page() );
+		static::assertSame( $post, get_team_page() );
 	}
 
 	/**
@@ -69,7 +74,8 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_get_team_member_pages_return_empty_if_no_team_page() {
 
-		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )->justReturn();
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )
+			->justReturn();
 
 		static::assertSame( [], get_team_member_pages() );
 	}
@@ -79,22 +85,24 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_get_team_member_pages_team_page_children_pages() {
 
-		$a_post     = $this->mockPosts( 1 )[0];
-		$a_post->ID = 123;
-		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )->justReturn( $a_post );
+		$post = $this->mock_post();
 
-		$fivePosts = $this->mockPosts( 5 );
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )
+			->justReturn( $post );
+
+		$posts = $this->mock_posts( 5 );
 
 		Monkey\Functions\expect( 'get_posts' )
-			->withArgs( function ( $args ) {
-				static::assertSame( 123, $args['post_parent'] );
+			->withArgs( function ( $args ) use ( $post ) {
+
+				static::assertSame( $post->ID, $args['post_parent'] );
 				static::assertSame( 'page', $args['post_type'] );
 
 				return true;
 			} )
-			->andReturn( $fivePosts );
+			->andReturn( $posts );
 
-		static::assertSame( $fivePosts, get_team_member_pages() );
+		static::assertSame( $posts, get_team_member_pages() );
 	}
 
 	/**
@@ -115,8 +123,13 @@ class Exercise4Test extends TestCase {
 	public function test_get_user_team_member_page_return_null_if_no_page_found_for_user() {
 
 		$user = \Mockery::mock( \WP_User::class );
-		$user->shouldReceive( 'exists' )->andReturn( true );
-		$user->shouldReceive( 'get' )->with( 'user_nicename' )->andReturn( 'john-doe' );
+		$user
+			->shouldReceive( 'exists' )
+			->andReturn( true );
+		$user
+			->shouldReceive( 'get' )
+			->with( 'user_nicename' )
+			->andReturn( 'john-doe' );
 
 		Monkey\Functions\expect( 'get_userdata' )
 			->with( 123 )
@@ -134,11 +147,16 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_get_user_team_member_page_return_page_for_user() {
 
-		$a_post = $this->mockPosts( 1 )[0];
+		$post = $this->mock_post();
 
 		$user = \Mockery::mock( \WP_User::class );
-		$user->shouldReceive( 'exists' )->andReturn( true );
-		$user->shouldReceive( 'get' )->with( 'user_nicename' )->andReturn( 'john-doe' );
+		$user
+			->shouldReceive( 'exists' )
+			->andReturn( true );
+		$user
+			->shouldReceive( 'get' )
+			->with( 'user_nicename' )
+			->andReturn( 'john-doe' );
 
 		Monkey\Functions\expect( 'get_userdata' )
 			->with( 123 )
@@ -146,9 +164,9 @@ class Exercise4Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_page_by_path' )
 			->with( TEAM_PAGE_SLUG . '/john-doe' )
-			->andReturn( $a_post );
+			->andReturn( $post );
 
-		static::assertSame( $a_post, get_user_team_member_page( 123 ) );
+		static::assertSame( $post, get_user_team_member_page( 123 ) );
 	}
 
 	/**
@@ -168,10 +186,10 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_is_team_page_is_false_if_there_is_no_team_page() {
 
-		$a_post = $this->mockPosts( 1 )[0];
+		$post = $this->mock_post();
 
 		Monkey\Functions\expect( 'get_post' )
-			->with( $a_post )
+			->with( $post )
 			->andReturn( false );
 
 		static::assertFalse( is_team_page() );
@@ -182,15 +200,15 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_is_team_page_is_true_if_current_post_is_team_page() {
 
-		$a_post = $this->mockPosts( 1 )[0];
+		$post = $this->mock_post();
 
 		Monkey\Functions\expect( 'get_post' )
 			->with( null )
-			->andReturn( $a_post );
+			->andReturn( $post );
 
 		Monkey\Functions\expect( 'UnitTestingWorkshop\get_team_page' )
 			->withNoArgs()
-			->andReturn( clone $a_post );
+			->andReturn( clone $post );
 
 		static::assertTrue( is_team_page() );
 	}
@@ -200,17 +218,17 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_is_team_page_is_true_if_given_post_is_team_page() {
 
-		$a_post = $this->mockPosts( 1 )[0];
+		$post = $this->mock_post();
 
 		Monkey\Functions\expect( 'get_post' )
-			->with( $a_post )
-			->andReturn( $a_post );
+			->with( $post )
+			->andReturn( $post );
 
 		Monkey\Functions\expect( 'UnitTestingWorkshop\get_team_page' )
 			->withNoArgs()
-			->andReturn( clone $a_post );
+			->andReturn( clone $post );
 
-		static::assertTrue( is_team_page( $a_post ) );
+		static::assertTrue( is_team_page( $post ) );
 	}
 
 	/**
@@ -232,9 +250,10 @@ class Exercise4Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )
 			->with( null )
-			->andReturn( $this->mockPosts( 1 )[0] );
+			->andReturn( $this->mock_post() );
 
-		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )->justReturn();
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )
+			->justReturn();
 
 		static::assertFalse( is_team_member_page() );
 	}
@@ -244,18 +263,17 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_is_team_member_page_is_true_if_current_post_is_team_member_page() {
 
-		$team_page     = $this->mockPosts( 1 )[0];
-		$team_page->ID = 123;
+		$team_page = $this->mock_post();
 
-		$current_post              = $this->mockPosts( 1 )[0];
-		$current_post->ID          = 456;
-		$current_post->post_parent = 123;
+		$post              = $this->mock_post();
+		$post->post_parent = $team_page->ID;
 
 		Monkey\Functions\expect( 'get_post' )
 			->with( null )
-			->andReturn( $current_post );
+			->andReturn( $post );
 
-		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )->justReturn( $team_page );
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )
+			->justReturn( $team_page );
 
 		static::assertTrue( is_team_member_page() );
 	}
@@ -265,39 +283,45 @@ class Exercise4Test extends TestCase {
 	 */
 	public function test_is_team_member_page_is_true_if_given_post_is_team_member_page() {
 
-		$team_page     = $this->mockPosts( 1 )[0];
-		$team_page->ID = 123;
+		$team_page = $this->mock_post();
 
-		$a_post              = $this->mockPosts( 1 )[0];
-		$a_post->ID          = 456;
-		$a_post->post_parent = 123;
+		$post              = $this->mock_post();
+		$post->post_parent = $team_page->ID;
 
 		Monkey\Functions\expect( 'get_post' )
-			->with( $a_post )
-			->andReturn( $a_post );
+			->with( $post )
+			->andReturn( $post );
 
-		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )->justReturn( $team_page );
+		Monkey\Functions\when( 'UnitTestingWorkshop\get_team_page' )
+			->justReturn( $team_page );
 
-		static::assertTrue( is_team_member_page( $a_post ) );
+		static::assertTrue( is_team_member_page( $post ) );
+	}
+
+	/**
+	 * Helper method to a mocked post object.
+	 *
+	 * @return \WP_Post|\Mockery\MockInterface
+	 */
+	private function mock_post() {
+
+		/** @var \WP_Post $post */
+		$post = \Mockery::mock( \WP_Post::class );
+
+		$post->ID = $this->running_post_id++;
+
+		return $post;
 	}
 
 	/**
 	 * Helper method to get an array of given size of mocked post objects.
 	 *
-	 * @param int $how_many
+	 * @param int $number_of_posts
 	 *
 	 * @return \WP_Post[]|\Mockery\MockInterface[]
 	 */
-	private function mockPosts( $how_many = 1 ) {
-		return array_map(
-			function ( $i ) {
-				/** @var \WP_Post $post */
-				$post     = \Mockery::mock( \WP_Post::class );
-				$post->ID = $i;
+	private function mock_posts( $number_of_posts = 1 ) {
 
-				return $post;
-			},
-			range( 1, $how_many )
-		);
+		return array_map( [ $this, 'mock_post' ], range( 1, $number_of_posts ) );
 	}
 }
